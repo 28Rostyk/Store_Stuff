@@ -1,27 +1,34 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import { getCategories } from "../../features/categories/categoriesSlice";
 import { getProducts } from "../../features/products/productsSlice";
+import { getAllProducts } from "../../features/products/productsSlice";
 
 import AppRoutes from "../Routes/Routes";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
+import UserForm from "../User/UserForm";
 
 const App = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  console.log(pathname);
   useEffect(() => {
     dispatch(getCategories());
+    dispatch(getAllProducts());
     dispatch(getProducts());
   }, [dispatch]);
 
   return (
     <div className="app">
       <Header />
+      <UserForm />
       <div className="container">
-        <Sidebar />
+        {pathname !== "/favourite" && <Sidebar />}
         <AppRoutes />
       </div>
       <Footer />

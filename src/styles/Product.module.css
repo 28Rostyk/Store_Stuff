@@ -104,7 +104,7 @@
 .actions {
   margin-top: 20px;
   display: flex;
-  column-gap: 10px;
+  column-gap: 9px;
 }
 
 .favourite {
