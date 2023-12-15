@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { toggleForm } from "../../features/user/userSlice";
+import { toggleForm, logout } from "../../features/user/userSlice";
 import styles from "../../styles/Header.module.css";
 
 import { ROUTES } from "../../utils/routes";
@@ -13,19 +13,30 @@ import AVATAR from "../../images/avatar.jpg";
 const Header = () => {
   const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
 
-  const { currentUser } = useSelector(({ user }) => user);
+  const { user, isLogin } = useSelector(({ user }) => user);
+  const navigate = useNavigate();
+  console.log(isLogin);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!currentUser) return;
-
-    setValues(currentUser);
-  }, [currentUser]);
+    if (!isLogin) {
+      setValues({ name: "Guest", avatar: AVATAR });
+    } else {
+      setValues(user);
+    }
+  }, [user, isLogin]);
 
   const handleClick = () => {
-    if (!currentUser) {
+    if (!user) {
       dispatch(toggleForm(true));
     }
+  };
+
+  const handleLogout = () => {
+    // Викликаємо action для виходу з системи
+    dispatch(logout());
+    // Встановлюємо значення за замовчуванням після виходу з системи
+    // setValues({ name: "Guest", avatar: AVATAR });
   };
 
   return (
@@ -43,6 +54,7 @@ const Header = () => {
           />
           <div className={styles.username}>{values.name}</div>
         </div>
+        <button onClick={handleLogout}>Logout</button>
         <form className={styles.form}>
           <div className={styles.icon}>
             <svg className="icon">

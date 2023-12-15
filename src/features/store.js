@@ -17,9 +17,9 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
 const persistConfig = {
-  key: "root",
+  key: "user",
   storage,
-  whitelist: ["user"],
+  whitelist: ["token"],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, userSlice);
@@ -32,7 +32,11 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(thunk, apiSlice.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(thunk, apiSlice.middleware),
   devTools: true,
 });
 

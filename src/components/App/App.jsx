@@ -4,8 +4,11 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { getCategories } from "../../features/categories/categoriesSlice";
-import { getProducts } from "../../features/products/productsSlice";
-import { getAllProducts } from "../../features/products/productsSlice";
+import {
+  getProducts,
+  getAllProducts,
+} from "../../features/products/productsSlice";
+import { current } from "../../features/user/userSlice";
 
 import AppRoutes from "../Routes/Routes";
 import Header from "../Header/Header";
@@ -21,6 +24,7 @@ const App = () => {
     dispatch(getCategories());
     dispatch(getAllProducts());
     dispatch(getProducts());
+    dispatch(current());
   }, [dispatch]);
 
   return (

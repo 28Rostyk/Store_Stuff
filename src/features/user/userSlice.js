@@ -87,14 +87,28 @@ export const current = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.logout();
+      return data;
+    } catch ({ response }) {
+      return rejectWithValue(response.data.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    currentUser: null,
+    user: null,
     cart: [],
     favourite: [],
+    token: "",
     formType: "signup",
     showForm: false,
+    isLogin: false,
     isLoading: false,
     error: null,
   },
@@ -146,7 +160,7 @@ const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(createUser.fulfilled, (state, { payload }) => {
-      state.currentUser = payload;
+      state.user = payload;
       state.isLoading = false;
     });
     builder.addCase(createUser.rejected, (state, { payload }) => {
@@ -166,10 +180,10 @@ const userSlice = createSlice({
     //   state.isLogin = true;
     // });
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      console.log(payload);
+      const { user, token } = payload;
       state.isLoading = false;
-      state.currentUser = payload.user;
-      state.token = payload.user.token; // Додайте цей рядок для оновлення токену
+      state.user = user;
+      state.token = token; // Додайте цей рядок для оновлення токену
       state.isLogin = true;
     });
     builder.addCase(loginUser.rejected, (state, { payload }) => {
@@ -180,19 +194,10 @@ const userSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     });
-    // builder.addCase(current.fulfilled, (state, { payload }) => {
-    //   const { user, token } = payload;
-    //   state.isLoading = false;
-    //   state.user = user;
-    //   state.token = token;
-    //   state.isLogin = true;
-    // });
     builder.addCase(current.fulfilled, (state, { payload }) => {
       const { user, token } = payload;
-      console.log(user);
-      console.log(token);
       state.isLoading = false;
-      state.currentUser = user;
+      state.user = user;
       state.token = token;
       state.isLogin = true;
     });
@@ -201,6 +206,28 @@ const userSlice = createSlice({
       state.token = "";
       state.error = payload;
     });
+    builder.addCase(logout.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.isLoading = false;
+      state.user = null;
+      state.token = "";
+      state.isLogin = false;
+    });
+    builder.addCase(logout.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    // builder.addCase(current.fulfilled, (state, { payload }) => {
+    //   const { user, token } = payload;
+    //   state.isLoading = false;
+    //   state.user = user;
+    //   state.token = token;
+    //   state.isLogin = true;
+    // });
+
     // builder.addCase(getAllProducts.rejected, (state) => {
     //   state.isLoading = false;
     // });
