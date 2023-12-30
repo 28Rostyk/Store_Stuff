@@ -54,7 +54,7 @@ const Header = () => {
           />
           <div className={styles.username}>{values.name}</div>
         </div>
-        <button onClick={handleLogout}>Logout</button>
+        {isLogin && <button onClick={handleLogout}>Logout</button>}
         <form className={styles.form}>
           <div className={styles.icon}>
             <svg className="icon">

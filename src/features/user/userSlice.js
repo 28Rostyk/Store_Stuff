@@ -1,31 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-// import { BASE_URL } from "../../utils/constats";
 import * as api from "../../shared/services/user";
 
 export const createUser = createAsyncThunk(
   "auth/register",
-  async (payload, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const res = await api.register(payload);
-      return res.data;
-    } catch (error) {
-      if (error.response) {
-        // Помилка від сервера (наприклад, 409 Конфлікт)
-        if (error.response.status === 409) {
-          return rejectWithValue(
-            "Користувач з такими даними вже зареєстрований!"
-          );
-        } else {
-          return rejectWithValue(
-            `Помилка сервера: ${error.response.status}. Спробуйте ще раз!`
-          );
-        }
-      } else {
-        // Інші технічні помилки (мережа, тощо)
+      const result = await api.register(data);
+      return result;
+    } catch ({ response }) {
+      if (response.status === 409) {
         return rejectWithValue(
-          "Під час реєстрації виникла технічна помилка. Спробуйте ще раз!"
+          "Користувач з такими даними вже зареєстрований!"
+        );
+      } else {
+        return rejectWithValue(
+          "Під час реєстрації виникла помилка. Спробуйте ще!"
         );
       }
     }
@@ -34,10 +23,10 @@ export const createUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (payload, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const res = await api.login(payload);
-      return res;
+      const result = await api.login(data);
+      return result;
     } catch ({ response }) {
       if (response) {
         const { status, data: responseData } = response;
@@ -73,7 +62,6 @@ export const current = createAsyncThunk(
       const data = await api.current(user.token);
       return data;
     } catch ({ response }) {
-      // console.log(response.data.message);
       return rejectWithValue(response.data.message);
     }
   },
@@ -109,8 +97,9 @@ const userSlice = createSlice({
     formType: "signup",
     showForm: false,
     isLogin: false,
-    isLoading: false,
+    loading: false,
     error: null,
+    isRefreshing: false,
   },
   reducers: {
     addItemToCart: (state, { payload }) => {
@@ -155,82 +144,67 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createUser.pending, (state, _) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(createUser.fulfilled, (state, { payload }) => {
-      state.user = payload;
-      state.isLoading = false;
-    });
-    builder.addCase(createUser.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    });
-    builder.addCase(loginUser.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    // builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-    //   // const { user, accessToken } = payload;
-    //   console.log(payload);
-    //   state.isLoading = false;
-    //   state.currentUser = payload.user;
-    //   state.token = payload.user.token;
-    //   state.isLogin = true;
-    // });
-    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      const { user, token } = payload;
-      state.isLoading = false;
-      state.user = user;
-      state.token = token; // Додайте цей рядок для оновлення токену
-      state.isLogin = true;
-    });
-    builder.addCase(loginUser.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    });
-    builder.addCase(current.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(current.fulfilled, (state, { payload }) => {
-      const { user, token } = payload;
-      state.isLoading = false;
-      state.user = user;
-      state.token = token;
-      state.isLogin = true;
-    });
-    builder.addCase(current.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.token = "";
-      state.error = payload;
-    });
-    builder.addCase(logout.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(logout.fulfilled, (state) => {
-      state.isLoading = false;
-      state.user = null;
-      state.token = "";
-      state.isLogin = false;
-    });
-    builder.addCase(logout.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    });
-    // builder.addCase(current.fulfilled, (state, { payload }) => {
-    //   const { user, token } = payload;
-    //   state.isLoading = false;
-    //   state.user = user;
-    //   state.token = token;
-    //   state.isLogin = true;
-    // });
-
-    // builder.addCase(getAllProducts.rejected, (state) => {
-    //   state.isLoading = false;
-    // });
+    builder
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, { payload }) => {
+        const { newUser, accessToken } = payload;
+        state.loading = false;
+        state.user = newUser;
+        state.token = accessToken;
+        state.isLogin = true;
+      })
+      .addCase(createUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        const { user, accessToken } = payload;
+        state.loading = false;
+        state.user = user;
+        state.token = accessToken;
+        state.isLogin = true;
+      })
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(current.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(current.fulfilled, (state, { payload }) => {
+        const { user, accessToken } = payload;
+        state.loading = false;
+        state.user = user;
+        state.token = accessToken;
+        state.isLogin = true;
+      })
+      .addCase(current.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.token = "";
+        state.error = payload;
+      })
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false;
+        state.user = {};
+        state.token = "";
+        state.isLogin = false;
+      })
+      .addCase(logout.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      });
   },
 });
 
