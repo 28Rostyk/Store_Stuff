@@ -14,8 +14,6 @@ const TempAuthPage = () => {
   const [searchParams] = useSearchParams();
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");
-  console.log(accessToken);
-  console.log(refreshToken);
 
   const dispatch = useDispatch();
 

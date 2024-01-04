@@ -31,7 +31,7 @@ const SingleProduct = () => {
   ) : (
     <>
       <Product {...data} />
-      <Products products={related} amount={5} title="Related products" />
+      <Products products={related} amount={5} title="Схожі товари" />
     </>
   );
 };

@@ -80,7 +80,7 @@ const Header = () => {
             <input
               type="search"
               name="search"
-              placeholder="Search for anything..."
+              placeholder="Пошук..."
               autoComplete="off"
               onChange={() => {}}
               value=""
@@ -89,11 +89,20 @@ const Header = () => {
           {false && <div className={styles.box}></div>}
         </form>
         <div className={styles.account}>
-          <Link to={ROUTES.FAVOURITE} className={styles.favourites}>
-            <svg className={styles["icon-fav"]}>
-              <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#heart`} />
-            </svg>
-          </Link>
+          {isLogin ? (
+            <Link to={ROUTES.FAVOURITE} className={styles.favourites}>
+              <svg className={styles["icon-fav"]}>
+                <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#heart`} />
+              </svg>
+            </Link>
+          ) : (
+            // Якщо користувач не увійшов у систему, викликаємо toggleForm
+            <div className={styles.favourites} onClick={handleClick}>
+              <svg className={styles["icon-fav"]}>
+                <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#heart`} />
+              </svg>
+            </div>
+          )}
           <Link to={ROUTES.CART} className={styles.cart}>
             <svg className={styles["icon-cart"]}>
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`} />

@@ -6,7 +6,7 @@ const FavouriteProducts = () => {
   const { favourite } = useSelector(({ user }) => user);
   return (
     <>
-      <Products products={favourite} amount={5} title="Favourite products" />
+      <Products products={favourite} amount={5} title="Улюблене" />
     </>
   );
 };

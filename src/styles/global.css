@@ -39,7 +39,7 @@ button {
   background: none;
   outline: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-family: Montserrat, Roboto, sans-serif;
 }
 
@@ -88,7 +88,7 @@ section {
 button {
   background: var(--violet-dark);
   border-radius: 6px;
-  padding: 9px 20px;
+  padding: 12px;
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;

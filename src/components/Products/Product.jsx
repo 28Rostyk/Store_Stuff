@@ -86,11 +86,11 @@ const Product = (item) => {
             className={styles.add}
             disabled={!currentSize}
           >
-            Add to cart
+            Додати в корзину
           </button>
           {!isFavourite.includes(id) ? (
             <button onClick={addToFavourite} className={styles.favourite}>
-              Add to favourites
+              Додати в улюблені
             </button>
           ) : (
             <button
@@ -100,7 +100,7 @@ const Product = (item) => {
               }}
               className={styles.favourite}
             >
-              Remove from favourites
+              Видалити з улюбленого
             </button>
           )}
         </div>
@@ -108,7 +108,7 @@ const Product = (item) => {
         <div className={styles.bottom}>
           <div className={styles.purchase}>19 people purchased</div>
 
-          <Link to={ROUTES.HOME}>Return to store</Link>
+          <Link to={ROUTES.HOME}>Повернутися в магазин</Link>
         </div>
       </div>
     </section>
