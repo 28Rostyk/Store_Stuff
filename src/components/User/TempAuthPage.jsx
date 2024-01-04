@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import { googleAuth } from "../../features/user/userSlice";
 import { memoizedSelectLoginAndToken } from "../../features/user/useSelectors";
 import { ROUTES } from "../../utils/routes";
-// import Loader from "components/Loader";
+import Loader from "../../shared/Loader/Loader";
 
 const TempAuthPage = () => {
   const [searchParams] = useSearchParams();
@@ -27,7 +27,7 @@ const TempAuthPage = () => {
   const { isLogin } = useSelector(memoizedSelectLoginAndToken);
 
   if (!isLogin && accessToken) {
-    return <>{/* <Loader /> */}Loading...</>;
+    return <>{<Loader />}</>;
   }
 
   if (isLogin) {

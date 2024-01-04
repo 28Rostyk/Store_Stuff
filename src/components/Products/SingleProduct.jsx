@@ -6,6 +6,7 @@ import { getRelatedProducts } from "../../features/products/productsSlice";
 import { ROUTES } from "../../utils/routes";
 import Product from "./Product";
 import Products from "./Products";
+import Loader from "../../shared/Loader/Loader";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -27,7 +28,9 @@ const SingleProduct = () => {
   }, [data, dispatch, allList.length]);
 
   return !data ? (
-    <section className="preloader">Loading...</section>
+    <section className="preloader">
+      <Loader />
+    </section>
   ) : (
     <>
       <Product {...data} />

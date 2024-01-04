@@ -3,12 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "../../styles/Products.module.css";
 import { Link } from "react-router-dom";
 import { removeItemFromFavourite } from "../../features/user/userSlice";
+import Loader from "../../shared/Loader/Loader";
 
 const Products = ({ title, style = {}, products = [], amount }) => {
   const list = products.filter((_, i) => i < amount);
   const { favourite } = useSelector(({ user }) => user);
+  const { isLoading } = useSelector(({ products }) => products);
   const dispatch = useDispatch();
   const isFavourite = favourite.map(({ id }) => id);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <section className={styles.products} style={style}>
