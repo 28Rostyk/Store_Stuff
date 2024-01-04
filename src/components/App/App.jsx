@@ -19,7 +19,6 @@ import UserForm from "../User/UserForm";
 const App = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log(pathname);
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getAllProducts());

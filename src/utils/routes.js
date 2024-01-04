@@ -4,4 +4,5 @@ export const ROUTES = {
   FAVOURITE: "/favourite",
   CATEGORY: "/categories:id",
   PRODUCT: "/products:id",
+  TEMP: "/auth/temp",
 };

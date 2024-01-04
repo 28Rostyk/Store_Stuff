@@ -1,0 +1,28 @@
+/* // @import "theme/abstract/_mixins.scss"; */
+
+.nav-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+
+  width: 100%;
+  min-width: 120px;
+  height: 40px;
+
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0em;
+
+  background: var(--violet-dark);
+  border-radius: 6px;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active {
+  background: var(--violet);
+}

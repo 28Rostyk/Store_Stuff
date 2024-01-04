@@ -11,11 +11,14 @@ import LOGO from "../../images/logo.svg";
 import AVATAR from "../../images/avatar.jpg";
 
 const Header = () => {
-  const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
+  const [values, setValues] = useState({
+    name: "Guest",
+    email: "",
+    avatar: AVATAR,
+  });
 
   const { user, isLogin } = useSelector(({ user }) => user);
   const navigate = useNavigate();
-  console.log(isLogin);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,9 +29,17 @@ const Header = () => {
     }
   }, [user, isLogin]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!user) {
+      // Якщо користувач не увійшов у систему, покажіть форму
       dispatch(toggleForm(true));
+    } else {
+      // Якщо користувач увійшов у систему, зачекайте оновлення стану
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      // Перевірте оновлений стан isLogin та покажіть/приховайте форму за потреби
+      if (!isLogin) {
+        dispatch(toggleForm(true));
+      }
     }
   };
 
@@ -38,6 +49,8 @@ const Header = () => {
     // Встановлюємо значення за замовчуванням після виходу з системи
     // setValues({ name: "Guest", avatar: AVATAR });
   };
+
+  const backgroundImage = values.avatar ? values.avatar : AVATAR;
 
   return (
     <div className={styles.header}>
@@ -50,9 +63,11 @@ const Header = () => {
         <div className={styles.user} onClick={handleClick}>
           <div
             className={styles.avatar}
-            style={{ backgroundImage: `url(${values.avatar})` }}
+            style={{ backgroundImage: `url(${backgroundImage})` }}
           />
-          <div className={styles.username}>{values.name}</div>
+          <div className={styles.username}>
+            {values.name ? values.name : values.email}
+          </div>
         </div>
         {isLogin && <button onClick={handleLogout}>Logout</button>}
         <form className={styles.form}>

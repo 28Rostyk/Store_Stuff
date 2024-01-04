@@ -11,7 +11,7 @@ const Sidebar = () => {
 
   return (
     <section className={styles.sidebar}>
-      <div className={styles.title}>CATEGORIES</div>
+      <div className={styles.title}>Категорії</div>
       <nav>
         <ul className={styles.menu}>
           {categories &&
@@ -31,7 +31,7 @@ const Sidebar = () => {
       </nav>
       <div className={styles.footer}>
         <a href="/help" target="_blank" className={styles.link}>
-          Help
+          Допомога
         </a>
         <a
           href="/terms"
@@ -39,7 +39,7 @@ const Sidebar = () => {
           className={styles.link}
           style={{ textDecoration: "underline" }}
         >
-          Terms & Conditions
+          Правила та умови
         </a>
       </div>
     </section>

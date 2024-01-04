@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../features/user/userSlice";
 
 import styles from "../../styles/User.module.css";
+import GoogleAuth from "./GoogleAuth";
 
 const UserLoginForm = ({ toggleCurrentFormType, closeForm }) => {
   const dispatch = useDispatch();
@@ -34,13 +35,13 @@ const UserLoginForm = ({ toggleCurrentFormType, closeForm }) => {
         </svg>
       </div>
 
-      <div className={styles.title}>Log In</div>
+      <div className={styles.title}>Вхід</div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.group}>
           <input
             type="email"
-            placeholder="Your email"
+            placeholder="Ваш email"
             name="email"
             value={values.email}
             autoComplete="off"
@@ -52,7 +53,7 @@ const UserLoginForm = ({ toggleCurrentFormType, closeForm }) => {
         <div className={styles.group}>
           <input
             type="password"
-            placeholder="Your password"
+            placeholder="Пароль"
             name="password"
             value={values.password}
             autoComplete="off"
@@ -65,11 +66,13 @@ const UserLoginForm = ({ toggleCurrentFormType, closeForm }) => {
           onClick={() => toggleCurrentFormType("signup")}
           className={styles.link}
         >
-          Create an account
+          Зареєструватися
         </div>
 
+        <GoogleAuth />
+
         <button type="submit" className={styles.submit}>
-          Login
+          Увійти
         </button>
       </form>
     </div>

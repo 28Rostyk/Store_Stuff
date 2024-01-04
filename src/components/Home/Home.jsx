@@ -27,10 +27,10 @@ const Home = () => {
   return (
     <>
       <Poster />
-      <Products products={list} amount={5} title="Trending" />
-      <Categories categories={categories} amount={5} title="Worth seeing" />
+      <Products products={list} amount={5} title="Тенденції" />
+      <Categories categories={categories} amount={5} title="Варто побачити" />
       <Banner />
-      <Products products={filtered} amount={5} title="Less than 100$" />
+      <Products products={filtered} amount={5} title="Менше 100 доларів" />
     </>
   );
 };

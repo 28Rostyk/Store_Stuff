@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUser } from "../../features/user/userSlice";
 
+import GoogleAuth from "./GoogleAuth";
+
 import styles from "../../styles/User.module.css";
 
 const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
@@ -36,13 +38,13 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
         </svg>
       </div>
 
-      <div className={styles.title}>Sign Up</div>
+      <div className={styles.title}>Реєстація</div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.group}>
           <input
             type="email"
-            placeholder="Your email"
+            placeholder="Ваш email"
             name="email"
             value={values.email}
             autoComplete="off"
@@ -54,7 +56,7 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
         <div className={styles.group}>
           <input
             type="name"
-            placeholder="Your name"
+            placeholder="Ім'я"
             name="name"
             value={values.name}
             autoComplete="off"
@@ -65,7 +67,7 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
         <div className={styles.group}>
           <input
             type="password"
-            placeholder="Your password"
+            placeholder="Пароль"
             name="password"
             value={values.password}
             autoComplete="off"
@@ -77,7 +79,7 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
         <div className={styles.group}>
           <input
             type="avatar"
-            placeholder="Your avatar"
+            placeholder="Аватарка"
             name="avatar"
             value={values.avatar}
             autoComplete="off"
@@ -89,11 +91,13 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
           className={styles.link}
           onClick={() => toggleCurrentFormType("login")}
         >
-          I already have an account
+          У мене вже є акаунт
         </div>
 
+        <GoogleAuth />
+
         <button type="submit" className={styles.submit}>
-          Create an account
+          Зареєструватися
         </button>
       </form>
     </div>
