@@ -99,6 +99,24 @@ export const logout = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (payload, thunkAPI) => {
+    try {
+      console.log(payload);
+      const data = await api.userUpdate(payload);
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err);
+      return thunkAPI.rejectWithValue({
+        message: err.message,
+        status: err.response?.status || 500, // Якщо є доступ до відповіді, встановлюємо код статусу, інакше встановлюємо 500
+      });
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -231,6 +249,18 @@ const userSlice = createSlice({
       .addCase(googleAuth.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload;
+      })
+      .addCase(updateUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload || "An error occurred";
       });
   },
 });

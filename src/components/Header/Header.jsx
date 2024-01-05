@@ -34,6 +34,7 @@ const Header = () => {
       // Якщо користувач не увійшов у систему, покажіть форму
       dispatch(toggleForm(true));
     } else {
+      navigate(ROUTES.PROFILE);
       // Якщо користувач увійшов у систему, зачекайте оновлення стану
       await new Promise((resolve) => setTimeout(resolve, 0));
       // Перевірте оновлений стан isLogin та покажіть/приховайте форму за потреби

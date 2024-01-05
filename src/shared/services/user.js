@@ -76,3 +76,9 @@ export const logout = async () => {
   setToken();
   return data;
 };
+
+export const userUpdate = async (payload) => {
+  const { data } = await instance.patch(`/auth/update/${payload._id}`, payload);
+  setToken(data.accessToken);
+  return data;
+};
