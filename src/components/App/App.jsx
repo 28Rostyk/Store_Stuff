@@ -8,7 +8,7 @@ import {
   getProducts,
   getAllProducts,
 } from "../../features/products/productsSlice";
-import { current } from "../../features/user/userSlice";
+import { current } from "../../features/user/userOperation";
 
 import AppRoutes from "../Routes/Routes";
 import Header from "../Header/Header";

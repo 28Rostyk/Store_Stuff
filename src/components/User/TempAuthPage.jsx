@@ -5,7 +5,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Navigate } from "react-router-dom";
 
 // import { googleAuth } from "redux/user/userOperations";
-import { googleAuth } from "../../features/user/userSlice";
+import { googleAuth } from "../../features/user/userOperation";
 import { memoizedSelectLoginAndToken } from "../../features/user/useSelectors";
 import { ROUTES } from "../../utils/routes";
 import Loader from "../../shared/Loader/Loader";

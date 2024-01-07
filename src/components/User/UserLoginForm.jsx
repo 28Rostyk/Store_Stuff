@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../features/user/userSlice";
+import { loginUser } from "../../features/user/userOperation";
 
 import styles from "../../styles/User.module.css";
 import GoogleAuth from "./GoogleAuth";

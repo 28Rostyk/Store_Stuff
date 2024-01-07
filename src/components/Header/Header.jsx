@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { toggleForm, logout } from "../../features/user/userSlice";
+import { toggleForm } from "../../features/user/userSlice";
+import { logout } from "../../features/user/userOperation";
+
 import styles from "../../styles/Header.module.css";
 
 import { ROUTES } from "../../utils/routes";
