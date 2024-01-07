@@ -7,7 +7,7 @@ import { getCategories } from "../../features/categories/categoriesSlice";
 import {
   getProducts,
   getAllProducts,
-} from "../../features/products/productsSlice";
+} from "../../features/products/productsOperation";
 import { current } from "../../features/user/userOperation";
 
 import AppRoutes from "../Routes/Routes";

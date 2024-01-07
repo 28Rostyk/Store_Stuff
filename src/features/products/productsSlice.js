@@ -1,34 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-
-import { BASE_URL } from "../../utils/constats";
+import { createSlice } from "@reduxjs/toolkit";
 import { shuffle } from "../../utils/common";
-
-export const getAllProducts = createAsyncThunk(
-  "products/getAllProducts",
-  async (_, thunkAPI) => {
-    try {
-      const res = await axios(`${BASE_URL}/products/all-products`);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
-
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async (_, thunkAPI) => {
-    try {
-      const res = await axios(`${BASE_URL}/products`);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
+import { getProducts, getAllProducts } from "./productsOperation";
 
 const productsSlice = createSlice({
   name: "products",
