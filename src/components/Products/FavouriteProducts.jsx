@@ -4,11 +4,15 @@ import { useSelector } from "react-redux";
 import Loader from "../../shared/Loader/Loader";
 
 const FavouriteProducts = () => {
-  const { favourite } = useSelector(({ user }) => user);
+  const { favourite, isLogin } = useSelector(({ user }) => user);
   const { isLoading } = useSelector(({ products }) => products);
   return (
     <>
-      <Products products={favourite} amount={5} title="Улюблене" />
+      {isLogin ? (
+        <Products products={favourite} amount={5} title="Улюблене" />
+      ) : (
+        <span>Вам потрібно увійти</span>
+      )}
       {isLoading && <Loader />}
     </>
   );
