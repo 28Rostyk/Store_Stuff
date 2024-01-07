@@ -111,7 +111,7 @@ export const updateUser = createAsyncThunk(
       console.log(err);
       return thunkAPI.rejectWithValue({
         message: err.message,
-        status: err.response?.status || 500, // Якщо є доступ до відповіді, встановлюємо код статусу, інакше встановлюємо 500
+        status: err.response?.status || 500,
       });
     }
   }

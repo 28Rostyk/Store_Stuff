@@ -7,7 +7,7 @@ import styles from "../../styles/Profile.module.css";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(({ user }) => user);
+  const { user, isLogin } = useSelector(({ user }) => user);
 
   const [values, setValues] = useState({
     name: "",
@@ -42,8 +42,8 @@ const Profile = () => {
 
   return (
     <section className={styles.profile}>
-      {!user ? (
-        <span>You need to log in</span>
+      {!isLogin ? (
+        <span>Вам потрібно увійти</span>
       ) : (
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.group}>
