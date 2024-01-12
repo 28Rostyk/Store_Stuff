@@ -8,13 +8,15 @@ import {
   getProducts,
   getAllProducts,
 } from "../../features/products/productsOperation";
-import { current } from "../../features/user/userOperation";
 
 import AppRoutes from "../Routes/Routes";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 import UserForm from "../User/UserForm";
+import AuthLayout from "../AuthLayout/AuthLayout";
+
+import { ROUTES } from "../../utils/routes";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,19 +25,20 @@ const App = () => {
     dispatch(getCategories());
     dispatch(getAllProducts());
     dispatch(getProducts());
-    dispatch(current());
   }, [dispatch]);
 
   return (
-    <div className="app">
-      <Header />
-      <UserForm />
-      <div className="container">
-        {pathname !== "/favourite" && <Sidebar />}
-        <AppRoutes />
+    <AuthLayout>
+      <div className="app">
+        <Header />
+        <UserForm />
+        <div className="container">
+          {pathname !== `${ROUTES.FAVOURITE}` && <Sidebar />}
+          <AppRoutes />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </AuthLayout>
   );
 };
 

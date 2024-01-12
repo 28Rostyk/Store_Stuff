@@ -6,4 +6,5 @@ export const ROUTES = {
   CATEGORY: "/categories:id",
   PRODUCT: "/products:id",
   TEMP: "/auth/temp",
+  NOTFOUND: "*",
 };
