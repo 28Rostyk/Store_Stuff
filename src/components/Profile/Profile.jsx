@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../features/user/userOperation";
 
 import styles from "../../styles/Profile.module.css";
+import Loader from "../../shared/Loader/Loader";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { user, isLogin } = useSelector(({ user }) => user);
+  const { user, isLogin, loading } = useSelector(({ user }) => user);
 
   const [values, setValues] = useState({
     name: "",
@@ -42,61 +43,67 @@ const Profile = () => {
 
   return (
     <section className={styles.profile}>
-      {!isLogin ? (
-        <span>Вам потрібно увійти</span>
+      {loading ? (
+        <Loader /> // Відображаємо Loader поки loading === true
       ) : (
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.group}>
-            <input
-              type="email"
-              placeholder="Your email"
-              name="email"
-              value={values.email}
-              autoComplete="off"
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <>
+          {!isLogin ? (
+            <span>Вам потрібно увійти</span>
+          ) : (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.group}>
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  name="email"
+                  value={values.email}
+                  autoComplete="off"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div className={styles.group}>
-            <input
-              type="text"
-              placeholder="Your name"
-              name="name"
-              value={values.name}
-              autoComplete="off"
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <div className={styles.group}>
+                <input
+                  type="text"
+                  placeholder="Your name"
+                  name="name"
+                  value={values.name}
+                  autoComplete="off"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div className={styles.group}>
-            <input
-              type="password"
-              placeholder="Your password"
-              name="password"
-              value={values.password}
-              autoComplete="off"
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <div className={styles.group}>
+                <input
+                  type="password"
+                  placeholder="Your password"
+                  name="password"
+                  value={values.password}
+                  autoComplete="off"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div className={styles.group}>
-            <input
-              type="text"
-              placeholder="Your avatar"
-              name="avatar"
-              value={values.avatar}
-              autoComplete="off"
-              onChange={handleChange}
-            />
-          </div>
+              <div className={styles.group}>
+                <input
+                  type="text"
+                  placeholder="Your avatar"
+                  name="avatar"
+                  value={values.avatar}
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </div>
 
-          <button type="submit" className={styles.submit}>
-            Update
-          </button>
-        </form>
+              <button type="submit" className={styles.submit}>
+                Update
+              </button>
+            </form>
+          )}
+        </>
       )}
     </section>
   );
