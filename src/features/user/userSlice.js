@@ -121,6 +121,7 @@ const userSlice = createSlice({
         state.user = {};
         state.token = "";
         state.isLogin = false;
+        state.showForm = true;
       })
       .addCase(logout.rejected, (state, { payload }) => {
         state.loading = false;
@@ -136,6 +137,7 @@ const userSlice = createSlice({
         state.user = user;
         state.token = accessToken;
         state.isLogin = true;
+        state.showForm = false;
       })
       .addCase(googleAuth.rejected, (state, { payload }) => {
         state.loading = false;

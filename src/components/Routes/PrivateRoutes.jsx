@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import Loader from "../../shared/Loader/Loader";
+import { Outlet, useNavigate } from "react-router-dom";
 import { toggleForm } from "../../features/user/userSlice";
 import { memoizedSelectLoginAndToken } from "../../features/user/useSelectors";
 
@@ -14,13 +13,14 @@ const PrivateRoutes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogin && token) {
-      // Логіка, коли користувач не увійшов, але має токен
-      navigate(ROUTES.HOME); // Перенаправлення на HOME, якщо необхідно
-    }
+    // if (!isLogin && token) {
+    //   // Логіка, коли користувач не увійшов, але має токен
+    //   navigate(ROUTES.HOME); // Перенаправлення на HOME, якщо необхідно
+    // }
 
     if (!isLogin && !token) {
-      navigate(ROUTES.HOME); // Перенаправлення на HOME, якщо необхідно
+      navigate(ROUTES.HOME);
+      dispatch(toggleForm(true)); // Перенаправлення на HOME, якщо необхідно
     }
   }, [isLogin, token, dispatch, navigate]);
 
