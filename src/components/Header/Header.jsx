@@ -11,6 +11,8 @@ import { ROUTES } from "../../utils/routes";
 
 import LOGO from "../../images/logo.svg";
 import AVATAR from "../../images/avatar.jpg";
+import { useGetProductsQuery } from "../../features/api/apiSlice";
+import Loader from "../../shared/Loader/Loader";
 
 const Header = () => {
   const [values, setValues] = useState({
@@ -18,6 +20,10 @@ const Header = () => {
     email: "",
     avatar: AVATAR,
   });
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const { data, isLoading } = useGetProductsQuery({ search: searchValue });
 
   const { user, isLogin } = useSelector(({ user }) => user);
   const navigate = useNavigate();
@@ -53,6 +59,11 @@ const Header = () => {
     // setValues({ name: "Guest", avatar: AVATAR });
   };
 
+  const handleSearchValue = ({ target: { value } }) => {
+    // обрізаємо пробіли на початку та в кінці
+    setSearchValue(value);
+  };
+
   const backgroundImage = values.avatar ? values.avatar : AVATAR;
 
   return (
@@ -85,11 +96,36 @@ const Header = () => {
               name="search"
               placeholder="Пошук..."
               autoComplete="off"
-              onChange={() => {}}
-              value=""
+              onChange={handleSearchValue}
+              value={searchValue}
             />
           </div>
-          {false && <div className={styles.box}></div>}
+          {searchValue && (
+            <div className={styles.box}>
+              {isLoading ? (
+                <Loader />
+              ) : !data.products.length ? (
+                "No results"
+              ) : (
+                data.products.map(({ title, images, id }) => {
+                  return (
+                    <Link
+                      key={id}
+                      onClick={() => setSearchValue("")}
+                      className={styles.item}
+                      to={`/products/${id}`}
+                    >
+                      <div
+                        className={styles.image}
+                        style={{ backgroundImage: `url(${images[0]})` }}
+                      />
+                      <div className={styles.title}>{title}</div>
+                    </Link>
+                  );
+                })
+              )}
+            </div>
+          )}
         </form>
         <div className={styles.account}>
           {isLogin ? (
