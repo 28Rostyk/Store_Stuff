@@ -8,6 +8,7 @@ import TempAuthPage from "../User/TempAuthPage";
 import Profile from "../Profile/Profile.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
 // import PublicRoute from "./PublicRoutes.jsx";
+import SingleCategory from "../Categories/SingleCategory.jsx";
 
 import { ROUTES } from "../../utils/routes.js";
 
@@ -15,7 +16,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="/products/:id" element={<SingleProduct />} />
+      <Route path={ROUTES.PRODUCT} element={<SingleProduct />} />
+      <Route path={ROUTES.CATEGORY} element={<SingleCategory />} />
       <Route path={ROUTES.TEMP} element={<TempAuthPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path={ROUTES.FAVOURITE} element={<FavouriteProducts />} />

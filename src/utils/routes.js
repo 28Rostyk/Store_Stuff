@@ -3,8 +3,8 @@ export const ROUTES = {
   CART: "/cart",
   FAVOURITE: "/favourite",
   PROFILE: "/profile",
-  CATEGORY: "/categories:id",
-  PRODUCT: "/products:id",
+  CATEGORY: "/categories/:id",
+  PRODUCT: "/products/:id",
   TEMP: "/auth/temp",
   NOTFOUND: "*",
 };
