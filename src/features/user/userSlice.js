@@ -13,7 +13,6 @@ const userSlice = createSlice({
   initialState: {
     user: null,
     cart: [],
-    favourite: [],
     token: "",
     formType: "signup",
     showForm: false,
@@ -36,24 +35,6 @@ const userSlice = createSlice({
       } else newCart.push({ ...payload, quantity: 1 });
       state.cart = newCart;
     },
-    addItemToFavourite: (state, { payload }) => {
-      let newItem = [...state.favourite];
-      const found = state.favourite.find(({ id }) => id === payload.id);
-
-      if (found) {
-        newItem = newItem.map((item) => {
-          return item.id === payload.id ? { ...item } : item;
-        });
-      } else newItem.push({ ...payload });
-      state.favourite = newItem;
-    },
-    removeItemFromFavourite: (state, { payload }) => {
-      const updatedFavourite = state.favourite.filter(
-        ({ id }) => id !== payload.id
-      );
-      state.favourite = updatedFavourite;
-    },
-
     toggleForm: (state, { payload }) => {
       state.showForm = payload;
     },

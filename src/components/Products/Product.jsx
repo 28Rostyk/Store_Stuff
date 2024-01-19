@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 
 import styles from "../../styles/Product.module.css";
 import { ROUTES } from "../../utils/routes";
-import {
-  addItemToCart,
-  addItemToFavourite,
-  removeItemFromFavourite,
-} from "../../features/user/userSlice";
+
+import { addItemToCart } from "../../features/user/userSlice";
+import { removeFromFavourite } from "../../utils/common";
+import { updateUser } from "../../features/user/userOperation";
 
 const SIZES = [4, 4.5, 5];
 
@@ -18,7 +17,7 @@ const Product = (item) => {
   const [currentSize, setCurrentSize] = useState();
   const [currentImage, setCurrentImage] = useState();
 
-  const { favourite } = useSelector(({ user }) => user);
+  const { user, isLogin } = useSelector(({ user }) => user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,10 +30,15 @@ const Product = (item) => {
     dispatch(addItemToCart(item));
   };
   const addToFavourite = () => {
-    dispatch(addItemToFavourite(item));
+    const updatedUser = {
+      ...user,
+      favouriteProducts: [...user.favouriteProducts, item],
+    };
+
+    dispatch(updateUser(updatedUser));
   };
 
-  const isFavourite = favourite.map(({ id }) => id);
+  const isFavourite = user?.favouriteProducts?.map(({ id }) => id) || [];
 
   return (
     <section className={styles.product}>
@@ -88,20 +92,24 @@ const Product = (item) => {
           >
             Додати в корзину
           </button>
-          {!isFavourite.includes(id) ? (
-            <button onClick={addToFavourite} className={styles.favourite}>
-              Додати в улюблені
-            </button>
-          ) : (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(removeItemFromFavourite({ id }));
-              }}
-              className={styles.favourite}
-            >
-              Видалити з улюбленого
-            </button>
+          {isLogin && (
+            <>
+              {!isFavourite.includes(id) ? (
+                <button onClick={addToFavourite} className={styles.favourite}>
+                  Додати в улюблені
+                </button>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(updateUser(removeFromFavourite(user, id)));
+                  }}
+                  className={styles.favourite}
+                >
+                  Видалити з улюбленого
+                </button>
+              )}
+            </>
           )}
         </div>
 

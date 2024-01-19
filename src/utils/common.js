@@ -9,3 +9,13 @@ export const buildUrl = (url, params) => {
   });
   return urlWithParams;
 };
+
+export const removeFromFavourite = (user, productId) => {
+  const updatedUser = {
+    ...user,
+    favouriteProducts: user.favouriteProducts.filter(
+      (product) => product.id !== productId
+    ),
+  };
+  return updatedUser;
+};

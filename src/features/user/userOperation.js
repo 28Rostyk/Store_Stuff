@@ -103,9 +103,7 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       const data = await api.userUpdate(payload);
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);

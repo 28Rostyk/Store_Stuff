@@ -1,17 +1,23 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styles from "../../styles/Products.module.css";
 import { Link } from "react-router-dom";
-import { removeItemFromFavourite } from "../../features/user/userSlice";
+
+import { updateUser } from "../../features/user/userOperation";
+import { removeFromFavourite } from "../../utils/common";
+
+import styles from "../../styles/Products.module.css";
+
 import Loader from "../../shared/Loader/Loader";
 
 const Products = ({ title, style = {}, products = [], amount }) => {
   const list = products.filter((_, i) => i < amount);
-  const { favourite } = useSelector(({ user }) => user);
+  const { user, isLogin } = useSelector(({ user }) => user);
   const { isLoading } = useSelector(({ products }) => products);
   const dispatch = useDispatch();
-  const isFavourite = favourite.map(({ id }) => id);
 
+  const isFavourite = Array.isArray(user?.favouriteProducts)
+    ? user.favouriteProducts.map(({ id }) => id)
+    : [];
   if (isLoading) {
     return <Loader />;
   }
@@ -40,12 +46,12 @@ const Products = ({ title, style = {}, products = [], amount }) => {
                   {Math.floor(Math.random() * 20 + 1)} purchases
                 </div>
 
-                {isFavourite.includes(id) && (
+                {isFavourite.includes(id) && isLogin && (
                   <svg
                     className={styles["icon-fav"]}
                     onClick={(e) => {
                       e.preventDefault();
-                      dispatch(removeItemFromFavourite({ id }));
+                      dispatch(updateUser(removeFromFavourite(user, id)));
                     }}
                   >
                     <use
