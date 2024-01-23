@@ -9,6 +9,7 @@ import Profile from "../Profile/Profile.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
 // import PublicRoute from "./PublicRoutes.jsx";
 import SingleCategory from "../Categories/SingleCategory.jsx";
+import Cart from "../Cart/Cart.jsx";
 
 import { ROUTES } from "../../utils/routes.js";
 
@@ -19,6 +20,7 @@ const AppRoutes = () => {
       <Route path={ROUTES.PRODUCT} element={<SingleProduct />} />
       <Route path={ROUTES.CATEGORY} element={<SingleCategory />} />
       <Route path={ROUTES.TEMP} element={<TempAuthPage />} />
+      <Route path={ROUTES.CART} element={<Cart />} />
       <Route element={<PrivateRoutes />}>
         <Route path={ROUTES.FAVOURITE} element={<FavouriteProducts />} />
         <Route path={ROUTES.PROFILE} element={<Profile />} />

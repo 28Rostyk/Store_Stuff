@@ -6,7 +6,7 @@ import styles from "../../styles/Product.module.css";
 import { ROUTES } from "../../utils/routes";
 
 import { addItemToCart } from "../../features/user/userSlice";
-import { removeFromFavourite } from "../../utils/common";
+import { removeFromFavourite, updateCart } from "../../utils/common";
 import { updateUser } from "../../features/user/userOperation";
 
 const SIZES = [4, 4.5, 5];
@@ -27,8 +27,36 @@ const Product = (item) => {
   }, [images]);
 
   const addToCart = () => {
+    if (isLogin) {
+      const updatedUser = {
+        ...user,
+        basket: updateCart(user.basket || [], item),
+      };
+
+      dispatch(updateUser(updatedUser));
+      return;
+    }
+
     dispatch(addItemToCart(item));
   };
+
+  // const updateCart = (cart, payload) => {
+  //   let newCart = [...cart];
+  //   const found = cart.find(({ id }) => id === payload.id);
+
+  //   if (found) {
+  //     newCart = newCart.map((item) => {
+  //       return item.id === payload.id
+  //         ? { ...item, quantity: payload.quantity || item.quantity + 1 }
+  //         : item;
+  //     });
+  //   } else {
+  //     newCart.push({ ...payload, quantity: 1 });
+  //   }
+
+  //   return newCart;
+  // };
+
   const addToFavourite = () => {
     const updatedUser = {
       ...user,

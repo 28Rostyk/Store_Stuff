@@ -19,7 +19,7 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "user",
   storage,
-  whitelist: ["token"],
+  whitelist: ["token", "cart"],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, userSlice);
